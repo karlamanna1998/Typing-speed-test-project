@@ -151,6 +151,8 @@ export default function Home() {
         const correctWords = typedWordsArray.filter(wordObj => !wordObj.wrong).length;
         const elapsedTime = 60 - timeLeft;
 
+        console.log(totalCharacters , totalWords , elapsedTime)
+
         if (elapsedTime > 0) {
             setCpm(Math.floor((totalCharacters * 60) / elapsedTime));
             setWpm(Math.floor((totalWords * 60 )  /elapsedTime));
