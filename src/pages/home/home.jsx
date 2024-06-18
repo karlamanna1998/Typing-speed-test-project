@@ -152,8 +152,8 @@ export default function Home() {
         const elapsedTime = 60 - timeLeft;
 
         if (elapsedTime > 0) {
-            setCpm(Math.floor((totalCharacters / elapsedTime) * 60));
-            setWpm(Math.floor((totalWords / elapsedTime) * 60));
+            setCpm(Math.floor((totalCharacters * 60) / elapsedTime));
+            setWpm(Math.floor((totalWords * 60 )  /elapsedTime));
             if (totalWords > 0) {
                 setAccuracy(Math.floor((correctWords / totalWords) * 100));
             }
