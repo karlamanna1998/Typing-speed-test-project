@@ -154,8 +154,8 @@ export default function Home() {
         console.log(totalCharacters , totalWords , elapsedTime)
 
         if (elapsedTime > 0) {
-            setCpm(Math.floor((totalCharacters * 60) / elapsedTime));
-            setWpm(Math.floor((totalWords * 60 )  /elapsedTime));
+            setCpm(Math.floor((totalCharacters));
+            setWpm(Math.floor((totalWords));
             if (totalWords > 0) {
                 setAccuracy(Math.floor((correctWords / totalWords) * 100));
             }
