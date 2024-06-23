@@ -288,7 +288,7 @@ export default function Home() {
                     <div className='modal_body'>
                         <div className='result_container'>You type at a speed of <span>{wpm} WPM</span> (words per minute) and <span>{cpm} CPM</span> (characters per minute) with an accuracy rate of <span>{accuracy}%</span>.</div>
 
-                        <div className='result_login_text'><span onClick={openLogin}>Login </span>and then take test to save your score on leaderboard</div>
+                        {!isLogedIn && <div className='result_login_text'><span onClick={openLogin}>Login </span>and then take test to save your score on leaderboard</div>}
 
                         <button className='leadboard_btn' onClick={openLeadboard}>Leadboard</button>
                     </div>
