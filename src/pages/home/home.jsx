@@ -73,7 +73,7 @@ export default function Home() {
             }
         };
         try {
-            await axios.post('http://localhost:5000/result/add', { cpm, wpm, accuracy }, config)
+            await axios.post('https://typing-speed-test-backend.vercel.app/result/add', { cpm, wpm, accuracy }, config)
         } catch (err) {
             console.log(err)
         }

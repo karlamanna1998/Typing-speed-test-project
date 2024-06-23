@@ -24,7 +24,7 @@ export default function Login() {
 
  async function signup(){
      try{
-       await  axios.post('http://localhost:5000/auth/register' , {username , password});
+       await  axios.post('https://typing-speed-test-backend.vercel.app/auth/register' , {username , password});
         setUsername('');
         setPassword('');
         setCurrentTab('login');
@@ -36,7 +36,7 @@ export default function Login() {
 
  async function login(){
     try{
-      const loginData  =  await axios.post('http://localhost:5000/auth/login' , {username , password});
+      const loginData  =  await axios.post('https://typing-speed-test-backend.vercel.app/auth/login' , {username , password});
        setUsername('');
        setPassword('');
        localStorage.setItem('typingUser', loginData.data.token);
