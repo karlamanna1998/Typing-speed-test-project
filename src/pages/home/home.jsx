@@ -1,25 +1,27 @@
 import { useEffect, useRef, useState } from 'react';
 import './home.css';
+import Navbar from '../../components/navbar/Navbar';
+import axios from 'axios';
 
-let simple_words  = [
+let simple_words = [
     "cat", "dog", "tree", "car", "book", "house", "cup", "star", "fish",
     "apple", "ball", "bird", "chair", "hat", "shoe", "milk", "key", "pen",
     "sun", "moon", "cake", "bread", "clock", "table", "phone", "water",
     "flower", "grass", "boat", "train", "frog", "lamp", "box", "door",
     "wind", "rain", "snow", "hill", "river", "beach", "rock", "cloud",
     "mouse", "horse", "sheep", "duck", "lion", "bear", "ring", "forest",
-    "mountain", "desert", "ocean", "elephant", "giraffe", "dolphin", 
-    "whale", "crocodile", "tiger", "leopard", "chameleon", "penguin", 
-    "kangaroo", "peacock", "butterfly", "hummingbird", "rhinoceros", 
-    "zebra", "eagle", "ostrich", "cheetah", "koala", "alligator", 
-    "woodpecker", "armadillo", "beaver", "walrus", "meerkat", "porcupine", 
-    "platypus", "aardvark", "bison", "buffalo", "chimpanzee", "gorilla", 
-    "hippopotamus", "jackal", "lemur", "lynx", "mongoose", "panther", 
-    "python", "raccoon", "salamander", "squirrel", "tarantula", "toucan", 
-    "vulture", "wombat", "yak", "antelope", "cassowary", "dragonfly", 
-    "elephantseal", "goldeneagle", "grizzlybear", "harpyeagle", "jellyfish", 
-    "kookaburra", "narwhal", "octopus", "pufferfish", "quokka", 
-    "snowleopard", "tasmaniandevil", "umbrellabird", "vampirebat", "wolf", 
+    "mountain", "desert", "ocean", "elephant", "giraffe", "dolphin",
+    "whale", "crocodile", "tiger", "leopard", "chameleon", "penguin",
+    "kangaroo", "peacock", "butterfly", "hummingbird", "rhinoceros",
+    "zebra", "eagle", "ostrich", "cheetah", "koala", "alligator",
+    "woodpecker", "armadillo", "beaver", "walrus", "meerkat", "porcupine",
+    "platypus", "aardvark", "bison", "buffalo", "chimpanzee", "gorilla",
+    "hippopotamus", "jackal", "lemur", "lynx", "mongoose", "panther",
+    "python", "raccoon", "salamander", "squirrel", "tarantula", "toucan",
+    "vulture", "wombat", "yak", "antelope", "cassowary", "dragonfly",
+    "elephantseal", "goldeneagle", "grizzlybear", "harpyeagle", "jellyfish",
+    "kookaburra", "narwhal", "octopus", "pufferfish", "quokka",
+    "snowleopard", "tasmaniandevil", "umbrellabird", "vampirebat", "wolf",
     "xraytetra", "yellowjacket", "zebu"
 ];
 
@@ -39,7 +41,8 @@ export default function Home() {
     const [wpm, setWpm] = useState(0);
     const [accuracy, setAccuracy] = useState(0);
     const editableDivRef = useRef(null);
-    const [resultOpen , setResultOpen] = useState(false)
+    const [resultOpen, setResultOpen] = useState(false)
+    const [isLogedIn, setIsLogedin] = useState(localStorage.getItem('typingUser') ? true : false);
 
 
     function shuffleArray(array) {
@@ -51,12 +54,30 @@ export default function Home() {
 
         setCurrentWord({
             word: shuffledArray[0],
-        index: 0
+            index: 0
         })
         return shuffledArray;
     }
 
-  
+    async function uploadResult() {
+
+        const token = localStorage.getItem('typingUser');
+        if (!token) {
+            throw new Error('No token found');
+        }
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        };
+        try {
+            await axios.post('http://localhost:5000/result/add', { cpm, wpm, accuracy }, config)
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
+
 
     const handleKeyDown = (e) => {
         const newContent = e.target.innerText;
@@ -64,7 +85,7 @@ export default function Home() {
             e.preventDefault();
             if (newContent === '') {
                 e.target.innerText = '';
-            }else{
+            } else {
                 handleNewWord(newContent);
             }
         }
@@ -151,7 +172,7 @@ export default function Home() {
         const correctWords = typedWordsArray.filter(wordObj => !wordObj.wrong).length;
         const elapsedTime = 60 - timeLeft;
 
-        console.log(totalCharacters , totalWords , elapsedTime)
+        console.log(totalCharacters, totalWords, elapsedTime)
 
         if (elapsedTime > 0) {
             setCpm(Math.floor(totalCharacters));
@@ -162,7 +183,7 @@ export default function Home() {
         }
     };
 
-    function closeResultModal(){
+    function closeResultModal() {
         resetStates()
     }
 
@@ -179,6 +200,10 @@ export default function Home() {
             editableDivRef.current.blur()
             setResultOpen(true)
             clearInterval(interval);
+
+            if (isLogedIn) {
+                uploadResult()
+            }
         }
 
         return () => clearInterval(interval);
@@ -190,67 +215,68 @@ export default function Home() {
         }
     }, [timeLeft]);
 
-    useEffect(()=>{
-         setWords(shuffleArray(simple_words))
+    useEffect(() => {
+        setWords(shuffleArray(simple_words))
     }, [])
 
     return (
 
         <>
-          <div className="main_container">
-            <h2 className='title2'>Test your typing skills <span >. . .</span>  </h2>
-            <div className="stats_container">
-                <div className='single_stat'>Time Left: <span>{timeLeft}s</span></div>
-                <div className='single_stat'>CPM: <span>{cpm}</span></div>
-                <div className='single_stat'>WPM: <span>{wpm}</span></div>
-                <div className='single_stat'>Accuracy: <span>{accuracy}%</span></div>
-            </div>
-            <div className="all_words_container" onClick={()=>editableDivRef.current.focus()}>
-                <div className='all_words_inner_container' >
-                    <div className='typing_container'>
-                        {
-                            typedWords.map((word, i) => (
-                                <div
-                                    key={i}
-                                    className={`typing_word 
+            <Navbar />
+            <div className="main_container">
+                <h2 className='title2'>Test your typing skills <span >. . .</span>  </h2>
+                <div className="stats_container">
+                    <div className='single_stat'>Time Left: <span>{timeLeft}s</span></div>
+                    <div className='single_stat'>CPM: <span>{cpm}</span></div>
+                    <div className='single_stat'>WPM: <span>{wpm}</span></div>
+                    <div className='single_stat'>Accuracy: <span>{accuracy}%</span></div>
+                </div>
+                <div className="all_words_container" onClick={() => editableDivRef.current.focus()}>
+                    <div className='all_words_inner_container' >
+                        <div className='typing_container'>
+                            {
+                                typedWords.map((word, i) => (
+                                    <div
+                                        key={i}
+                                        className={`typing_word 
                                         ${word.wrong ? 'wrong' : ''} 
                                         ${word.done ? 'done' : ''} 
                                     `.trim()}
-                                >
-                                    <b>{word.word}</b>
-                                </div>
-                            ))
-                        }
-                    </div>
-                    <div 
-                        className={`current_typing_word ${currentWordWrong ? 'wrong' : ''}`} 
-                        contentEditable='true' 
-                        style={{ whiteSpace: 'pre-wrap' }} 
-                        ref={editableDivRef} 
-                        onInput={handleChange}
-                        onKeyDown={handleKeyDown}
-                    ></div>
-                    <div className='display_words_container'>
-                        {
-                            words.map((word, i) => (
-                                word ? <div className='display_word' style={{ marginLeft: currentWord.index === i ? '0' : '10px' }} key={i}>{word}</div> : null
-                            ))
-                        }
+                                    >
+                                        <b>{word.word}</b>
+                                    </div>
+                                ))
+                            }
+                        </div>
+                        <div
+                            className={`current_typing_word ${currentWordWrong ? 'wrong' : ''}`}
+                            contentEditable='true'
+                            style={{ whiteSpace: 'pre-wrap' }}
+                            ref={editableDivRef}
+                            onInput={handleChange}
+                            onKeyDown={handleKeyDown}
+                        ></div>
+                        <div className='display_words_container'>
+                            {
+                                words.map((word, i) => (
+                                    word ? <div className='display_word' style={{ marginLeft: currentWord.index === i ? '0' : '10px' }} key={i}>{word}</div> : null
+                                ))
+                            }
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
 
-        {resultOpen && <div className='modal_outer_container' >
-          <div className='backdrop'></div>
-          <div className='modal_container'>
-           <div className='modal_head'><div></div><img className='close_icon' onClick={closeResultModal} src='./delete.png' alt='close'/></div>
-           <div className='modal_body'>
-            <div className='result_container'>You type at a speed of <span>{wpm} WPM</span> (words per minute) and <span>{cpm} CPM</span> (characters per minute) with an accuracy rate of <span>{accuracy}%</span>.</div>
-           </div>
-          </div>
-         </div>}
+            {resultOpen && <div className='modal_outer_container' >
+                <div className='backdrop'></div>
+                <div className='modal_container'>
+                    <div className='modal_head'><div></div><img className='close_icon' onClick={closeResultModal} src='./delete.png' alt='close' /></div>
+                    <div className='modal_body'>
+                        <div className='result_container'>You type at a speed of <span>{wpm} WPM</span> (words per minute) and <span>{cpm} CPM</span> (characters per minute) with an accuracy rate of <span>{accuracy}%</span>.</div>
+                    </div>
+                </div>
+            </div>}
         </>
 
     );
