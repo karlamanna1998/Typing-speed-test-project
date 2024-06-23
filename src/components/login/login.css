@@ -10,15 +10,15 @@
     z-index: 1;
 }
 
-.backdrop{
+.login_wrapper .backdrop{
     position: absolute;
     width: 100%;
     height: 100%;
     background: rgba(35, 35, 60, 0.5);
 }
 
-.login_container{
-    width: 450px;
+.login_wrapper .login_container{
+    width: 400px;
     background: #fff;
     border-radius: 10px;
     padding: 20px;
@@ -26,14 +26,14 @@
     z-index: 10;
 }
 
-.login_signup_tab_container{
+.login_wrapper .login_container .login_signup_tab_container{
     display: flex;
     background: #F5F5FA;
     border-radius: 10px;
     overflow: hidden;
 }
 
-.login_signup_tab_container .tab{
+.login_wrapper .login_container .login_signup_tab_container .tab{
    flex-grow: 1;
    text-align: center;
    padding: 14px 0;
@@ -41,28 +41,36 @@
    cursor: pointer;
 }
 
-.login_signup_tab_container .tab.active{
+.login_wrapper .login_container .login_signup_tab_container .tab.active{
     color: #ffff;
-    background: #f39c12;
+    background: #ffb034;
     border-radius: 10px;
     box-shadow: 0 9px 24px rgba(0, 0, 0, .12), 0 9px 24px rgba(0, 0, 0, .12);
  }
 
- .form_conatiner{
+ .login_wrapper .login_container .form_conatiner{
     padding: 10px 0 0 0;
  }
 
- .form_group_container{
+ .login_wrapper .login_container .form_conatiner .form_group_container{
     display: flex;
     flex-direction: column;
     padding-bottom: 10px;
+    position: relative;
  }
 
- .form_group_container label{
+ .login_wrapper .login_container .form_conatiner .form_group_container label{
     font-size: 15px;
  }
 
- .form_group_container input{
+ .error_text{
+    font-size: 10px;
+    color: red;
+    position: absolute;
+    bottom: -2px;
+ }
+
+ .login_wrapper .login_container .form_conatiner .form_group_container input{
     margin-top: 4px;
     height: 40px;
     border: 1px solid #cbcbcb;
@@ -70,38 +78,40 @@
     padding: 0 10px;
  }
 
- .form_group_container input:focus{
+ .login_wrapper .login_container .form_conatiner .form_group_container input:focus{
     outline: none;
  }
 
- .login_btn_container{
+ .login_wrapper .login_container  .login_btn_container{
     display: flex;
     gap: 10px;
     margin-top: 7px;
  }
 
- .cancel_btn {
+ .login_wrapper .login_container  .login_btn_container .cancel_btn {
     flex-grow: 1;
     background: #F5F5FA;
-    border: 1px solid #f39c12;
+    border: none;
     border-radius: 5px;
     padding: 10px 0;
+    cursor: pointer;
  }
 
- .login_btn {
+ .login_wrapper .login_container  .login_btn_container .login_btn {
     flex-grow: 1;
-    background: #f39c12;
+    background: #ffb034;
     padding: 10px 0;
     border: none;
     border-radius: 5px;
     color: #fff;
+    cursor: pointer;
  }
 
- .login_text{
+ .login_wrapper .login_container .login_text{
     font-size: 15px;
  }
 
- .login_text span{
-    color: #f39c12;
+ .login_wrapper .login_container .login_text span{
+    color: #ffb034;
     cursor: pointer;
  }

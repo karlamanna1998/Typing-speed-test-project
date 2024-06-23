@@ -1,7 +1,8 @@
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import './home.css';
 import Navbar from '../../components/navbar/Navbar';
 import axios from 'axios';
+import { commonContext } from '../../context/commonContext';
 
 let simple_words = [
     "cat", "dog", "tree", "car", "book", "house", "cup", "star", "fish",
@@ -27,6 +28,7 @@ let simple_words = [
 
 
 export default function Home() {
+    const {leadboardOpen , setLeadboardOpen , loginOpen , setLoginOpen} = useContext(commonContext)
     const [words, setWords] = useState([]);
     const [typedWords, setTypedWords] = useState([]);
     const [currentWord, setCurrentWord] = useState({
@@ -172,7 +174,6 @@ export default function Home() {
         const correctWords = typedWordsArray.filter(wordObj => !wordObj.wrong).length;
         const elapsedTime = 60 - timeLeft;
 
-        console.log(totalCharacters, totalWords, elapsedTime)
 
         if (elapsedTime > 0) {
             setCpm(Math.floor(totalCharacters));
@@ -186,6 +187,18 @@ export default function Home() {
     function closeResultModal() {
         resetStates()
     }
+
+    function openLeadboard(){
+            setResultOpen(false);
+            setLeadboardOpen(true)
+            resetStates()
+    }
+
+    function openLogin(){
+        setResultOpen(false);
+        setLoginOpen(true);
+        resetStates()
+}
 
 
     useEffect(() => {
@@ -271,9 +284,13 @@ export default function Home() {
             {resultOpen && <div className='modal_outer_container' >
                 <div className='backdrop'></div>
                 <div className='modal_container'>
-                    <div className='modal_head'><div></div><img className='close_icon' onClick={closeResultModal} src='./delete.png' alt='close' /></div>
+                    <div className='modal_head'><div>Your score</div><img className='close_icon' onClick={closeResultModal} src='./delete.png' alt='close' /></div>
                     <div className='modal_body'>
                         <div className='result_container'>You type at a speed of <span>{wpm} WPM</span> (words per minute) and <span>{cpm} CPM</span> (characters per minute) with an accuracy rate of <span>{accuracy}%</span>.</div>
+
+                        <div className='result_login_text'><span onClick={openLogin}>Login </span>and then take test to save your score on leaderboard</div>
+
+                        <button className='leadboard_btn' onClick={openLeadboard}>Leadboard</button>
                     </div>
                 </div>
             </div>}
