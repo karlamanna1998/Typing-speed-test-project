@@ -17,6 +17,8 @@
  padding: 20px;
  box-shadow: 0 9px 24px rgba(0, 0, 0, .12), 0 9px 24px rgba(0, 0, 0, .12);
  z-index: 10;
+ max-height: 90vh;
+    overflow-y: auto;
 }
 
 .modal_outer_container .backdrop{
