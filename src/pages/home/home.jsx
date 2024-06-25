@@ -81,7 +81,7 @@ export default function Home() {
             }
         };
         try {
-            await axios.post('https://typing-speed-test-backend.vercel.app/result/add', { cpm, wpm, accuracy }, config)
+            await axios.post(`${process.env.REACT_APP_API_URL}result/add`, { cpm, wpm, accuracy }, config)
         } catch (err) {
             console.log(err)
         }
@@ -177,15 +177,16 @@ export default function Home() {
     };
 
     const calculateCpmWpm = (typedWordsArray = typedWords) => {
-        const totalCharacters = typedWordsArray.reduce((acc, wordObj) => acc + wordObj.word.length, 0);
-        const totalWords = typedWordsArray.length;
+        const correctWordsArray = typedWordsArray.filter(wordObj => !wordObj.wrong);
         const correctWords = typedWordsArray.filter(wordObj => !wordObj.wrong).length;
+        const totalCharacters = correctWordsArray.reduce((acc, wordObj) => acc + wordObj.word.length, 0);
+        const totalWords = typedWordsArray.length;
         const elapsedTime = 60 - timeLeft;
 
 
         if (elapsedTime > 0) {
             setCpm(Math.floor(totalCharacters));
-            setWpm(Math.floor(totalWords));
+            setWpm(Math.floor(correctWords));
             if (totalWords > 0) {
                 setAccuracy(Math.floor((correctWords / totalWords) * 100));
             }

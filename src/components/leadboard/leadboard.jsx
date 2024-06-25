@@ -10,7 +10,7 @@ export default function Leadboard(){
 
     async function getLeadboardData(){
          try {
-          const rankData = await axios.get('https://typing-speed-test-backend.vercel.app/result/rankings');
+          const rankData = await axios.get(`${process.env.REACT_APP_API_URL}result/rankings`);
           setLeadboardData(rankData.data.data)
          }catch(err){
            console.log(err)
