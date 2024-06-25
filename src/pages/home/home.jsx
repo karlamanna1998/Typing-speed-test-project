@@ -211,7 +211,11 @@ export default function Home() {
 
     useEffect(() => {
 
-        console.log(process.env.REACT_APP_SECRET_KEY)
+        setTimeout(() => {
+            console.log(process.env.REACT_APP_SECRET_KEY)
+        }, 1000);
+
+        
         let interval;
         if (timerStarted && timeLeft > 0) {
             interval = setInterval(() => {
