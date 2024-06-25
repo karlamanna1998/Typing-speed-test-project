@@ -23,8 +23,16 @@ let simple_words = [
     "elephantseal", "goldeneagle", "grizzlybear", "harpyeagle", "jellyfish",
     "kookaburra", "narwhal", "octopus", "pufferfish", "quokka",
     "snowleopard", "tasmaniandevil", "umbrellabird", "vampirebat", "wolf",
-    "xraytetra", "yellowjacket", "zebu"
-];
+    "xraytetra", "yellowjacket", "zebu",
+    "balloon", "basket", "bell", "bread", "brush", "button", "candle",
+    "candy", "cheese", "chocolate", "cookie", "corn", "crown", "diamond",
+    "doll", "egg", "feather", "glove", "hammer", "jacket", "juice",
+    "kite", "leaf", "light", "magnet", "map", "muffin", "noodle",
+    "orange", "pencil", "pillow", "pocket", "potato", "puppy", "rainbow",
+    "robot", "shell", "soap", "sock", "spoon", "straw", "towel", "toy",
+    "umbrella", "van", "wheel", "yarn"
+]
+
 
 
 export default function Home() {
