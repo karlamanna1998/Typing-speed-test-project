@@ -39,7 +39,7 @@ export default function Login() {
       const loginData  =  await axios.post(`${process.env.REACT_APP_API_URL}auth/login` , {username , password});
        setUsername('');
        setPassword('');
-       localStorage.setItem('typingUser', loginData.token);
+       localStorage.setItem('typingUser', loginData.data.token);
        setLoginOpen(false)
        window.location.reload();
     }

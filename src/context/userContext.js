@@ -11,8 +11,8 @@ export const UserContextProvider  = ({children})=>{
      async function getRoomId(){
         try{
             // const token = localStorage.getItem('typingUser');
-            await axios.get(`${process.env.REACT_APP_API_URL}room/userDetails`)
-            setRoomId()
+            const user = await axios.get(`${process.env.REACT_APP_API_URL}room/userDetails`)
+            setRoomId(user.data.data)
         }catch(e){
             console.log(e)
         }
@@ -26,7 +26,7 @@ export const UserContextProvider  = ({children})=>{
         }
      }  , [])
     return (
-        <UserContext.Provider value={{loggedIn}}>
+        <UserContext.Provider value={{loggedIn , roomId}}>
         {children}
         </UserContext.Provider>
     )

@@ -7,7 +7,6 @@ import { commonContext } from './context/commonContext';
 import Leadboard from './components/leadboard/leadboard';
 import Login from './components/login/login';
 import axios from 'axios';
-import { Router } from 'express';
 
 function App() {
 
@@ -32,7 +31,7 @@ function App() {
   axios.interceptors.response.use(
     response => {
       console.log(response);
-      return response.data
+      return response
     },
     error => {
       Promise.reject(error)
