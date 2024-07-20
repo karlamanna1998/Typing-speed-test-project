@@ -11,7 +11,7 @@ export default function Leadboard(){
     async function getLeadboardData(){
          try {
           const rankData = await axios.get(`${process.env.REACT_APP_API_URL}result/rankings`);
-          setLeadboardData(rankData.data.data)
+          setLeadboardData(rankData.data)
          }catch(err){
            console.log(err)
          }

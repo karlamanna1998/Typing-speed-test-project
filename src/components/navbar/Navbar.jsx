@@ -2,10 +2,11 @@ import { useContext, useState } from 'react'
 import Login from '../login/login'
 import './navbar.css'
 import { commonContext } from '../../context/commonContext';
+import { UserContext } from '../../context/userContext';
 
 export default function Navbar() {
     const { setLeadboardOpen, loginOpen, setLoginOpen } = useContext(commonContext)
-    const [isLogedIn, setIsLogedin] = useState(localStorage.getItem('typingUser') ? true : false);
+    const {loggedIn} = useContext(UserContext)
 
     function handleLogout() {
         const confirmLogout = window.confirm('Are you sure you want to logout?');
@@ -24,9 +25,9 @@ export default function Navbar() {
 
                     <button className="button-67" onClick={() => setLeadboardOpen(true)}>Leadboard</button>
 
-                    {!isLogedIn && <button className="button-67" onClick={() => setLoginOpen(true)}>Login/Signup</button>}
+                    {!loggedIn && <button className="button-67" onClick={() => setLoginOpen(true)}>Login/Signup</button>}
 
-                    {isLogedIn && <button className="button-67" onClick={handleLogout}>Logout</button>}
+                    {loggedIn && <button className="button-67" onClick={handleLogout}>Logout</button>}
                 </div>
             </nav>
 

@@ -6,10 +6,40 @@ import { useContext } from 'react';
 import { commonContext } from './context/commonContext';
 import Leadboard from './components/leadboard/leadboard';
 import Login from './components/login/login';
+import axios from 'axios';
+import { Router } from 'express';
 
 function App() {
 
   const {leadboardOpen , setLeadboardOpen , loginOpen , setLoginOpen} = useContext(commonContext)
+
+  axios.interceptors.request.use(
+    config => {
+      const token = localStorage.getItem('typingUser')
+      if (token) {
+        config.headers['Authorization'] = 'Bearer ' + token
+      }
+      config.headers['Content-Type'] = 'application/json';
+     
+      return config
+    },
+    error => {
+      Promise.reject(error)
+    }
+  )
+
+
+  axios.interceptors.response.use(
+    response => {
+      console.log(response);
+      return response.data
+    },
+    error => {
+      Promise.reject(error)
+    }
+  )
+
+
   return (
     <BrowserRouter>
     <Routes>
