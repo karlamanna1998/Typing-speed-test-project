@@ -2,7 +2,7 @@ import logo from './logo.svg';
 import './App.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Home from './pages/home/home';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { commonContext } from './context/commonContext';
 import Leadboard from './components/leadboard/leadboard';
 import Login from './components/login/login';
@@ -12,31 +12,37 @@ function App() {
 
   const {leadboardOpen , setLeadboardOpen , loginOpen , setLoginOpen} = useContext(commonContext)
 
-  axios.interceptors.request.use(
-    config => {
-      const token = localStorage.getItem('typingUser')
-      if (token) {
-        config.headers['Authorization'] = 'Bearer ' + token
+  useEffect(() => {
+    const requestInterceptor = axios.interceptors.request.use(
+      config => {
+        const token = localStorage.getItem('typingUser');
+        if (token) {
+          config.headers['Authorization'] = 'Bearer ' + token;
+        }
+        config.headers['Content-Type'] = 'application/json';
+        return config;
+      },
+      error => {
+        return Promise.reject(error);
       }
-      config.headers['Content-Type'] = 'application/json';
-     
-      return config
-    },
-    error => {
-      Promise.reject(error)
-    }
-  )
+    );
 
+    const responseInterceptor = axios.interceptors.response.use(
+      response => {
+        return response;
+      },
+      error => {
+        return Promise.reject(error);
+      }
+    );
 
-  axios.interceptors.response.use(
-    response => {
-      console.log(response);
-      return response
-    },
-    error => {
-      Promise.reject(error)
-    }
-  )
+    // Clean up interceptors on component unmount
+    return () => {
+      axios.interceptors.request.eject(requestInterceptor);
+      axios.interceptors.response.eject(responseInterceptor);
+    };
+  }, []);
+
 
 
   return (

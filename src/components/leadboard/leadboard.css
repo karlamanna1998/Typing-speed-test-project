@@ -1,3 +1,8 @@
+.table_wrapper{
+    max-height: 60vh;
+    overflow: auto;
+}
+
 .leadboard_table{
     width: 100%;
     margin-top: 20px;
@@ -7,6 +12,10 @@
     font-size: 15px;
     /* border: 1px solid #fff; */
     border-collapse: collapse;
+}
+
+.leadboard_table.room_leadbord_table{
+    margin-top: 10px;
 }
 
 .leadboard_table thead tr th{
@@ -21,4 +30,123 @@
     padding: 10px 0;
     /* border: 1px solid #fff; */
 
+}
+
+
+.tabs_container{
+    display: flex;
+    list-style: none;
+    gap: 20px;
+    padding-left: 0;
+    margin-bottom: 0;
+}
+
+.tabs_container li{
+    padding-bottom: 7px;
+    cursor: pointer;
+ 
+}
+
+
+.tabs_container li.active{
+    border-bottom: 3px solid #ffb034;
+}
+
+
+
+
+
+.new_room_join_container{
+    margin-top: 15px;
+}
+
+.new_room_join_container.create_room{
+    margin-top: 0px;
+}
+
+.Join_title{
+    margin-bottom: 0px;
+}
+
+.new_room_join_container input{
+    margin-top: 4px;
+    height: 40px;
+    border: 1px solid #cbcbcb;
+    border-radius: 5px;
+    padding: 0 10px;
+    margin-right: 5px;
+    font-size: 15px;
+}
+
+.new_room_join_container input:focus{
+    outline: none;
+}
+
+.common_btn{
+    background: #ffb034;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 15px;
+    min-width: 70px;
+}
+
+.common_btn:hover{
+    background: #ffb134be;
+}
+
+.common_btn:disabled{
+    background: #ffb134be;
+}
+
+.or_container{
+    display: flex;
+    align-items: center;
+    margin: 15px 0 5px 0;
+    gap: 10px;
+}
+
+.or_line{
+    flex-grow: 1;   
+    border-bottom: 1px solid #ffb13466;
+}
+
+.helperText{
+    font-size: 13px;
+    margin-top: 15px;
+    color: grey;
+    text-align: justify;
+    line-height: 15px;
+}
+
+.helperText span{
+    color: #ffb034;
+    cursor: pointer;
+}
+
+.roomName_container{
+    margin-top: 15px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.roomName_container span{
+    color: grey;
+    font-size: 14px;
+}
+
+.roomName_container p{
+    color: black;
+    font-size: 14px;
+    margin-bottom: 0;
+}
+
+.spinner-border{
+    width: 15px !important;
+    height: 15px !important;
 }
