@@ -150,3 +150,13 @@
     width: 15px !important;
     height: 15px !important;
 }
+
+.loading_wrapper{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.loading_wrapper img{
+    width: 50px;
+}

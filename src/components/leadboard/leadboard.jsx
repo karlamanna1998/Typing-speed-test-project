@@ -23,12 +23,16 @@ export default function Leadboard() {
     const [createRoomSubmitted, setCreateRoomSubmitted] = useState(false)
     const [joinRoomLoading , setJoinRoomLoading] = useState(false)
     const [createRoomLoading , setCreateRoomLoading] = useState(false)
+    const [leadboardLoading , setLeadboardLoading] = useState(true)
     async function getLeadboardData() {
+        setLeadboardLoading(true)
         try {
             const rankData = await axios.get(`${process.env.REACT_APP_API_URL}result/rankings`);
             setLeadboardData(rankData.data.data)
+            setLeadboardLoading(false)
         } catch (err) {
             console.log(err)
+            setLeadboardLoading(false)
         }
     }
 
@@ -140,7 +144,7 @@ export default function Leadboard() {
                     {currentTab === 1 &&
                         <>
                             <div className="table_wrapper">
-                                <table className="leadboard_table">
+                                {!leadboardLoading && <table className="leadboard_table">
                                     <thead>
                                         <tr>
                                             <th>Rank</th>
@@ -166,10 +170,14 @@ export default function Leadboard() {
                                         }
 
                                         {
-                                            leadboardData.length == 0 && <tr><td colSpan={5}>No data found</td></tr>
+                                           leadboardData.length == 0 && <tr><td colSpan={5}>No data found</td></tr>
                                         }
+                                         
                                     </tbody>
-                                </table>
+                                </table>}
+                                {
+                                            leadboardLoading && <div className="loading_wrapper"><img src="./loading2.gif"/></div>
+                                            }
                             </div>
                             {!loggedIn && <p className="helperText">* You need to <span onClick={login}>login</span> to compete with others on the leaderboard.</p>}
                         </>
@@ -214,6 +222,7 @@ export default function Leadboard() {
                                             {
                                              roomLeadboardData.result.length == 0 && <tr><td colSpan={5}>No data found</td></tr>
                                             }
+                                          
                                         </tbody>
                                     </table>
                                 </div>
